@@ -1,0 +1,15 @@
+[Unit]
+Description=n8n Workflow Automation
+Wants=ngrok-n8n.service
+
+[Service]
+Type=simple
+ExecStart=/home/riad/.nvm/versions/node/v24.13.0/bin/node /home/riad/.nvm/versions/node/v24.13.0/bin/n8n
+WorkingDirectory=/home/riad
+Restart=always
+RestartSec=10
+
+Environment="PATH=/home/riad/.nvm/versions/node/v24.13.0/bin:/usr/local/bin:/usr/bin:/bin"
+Environment="NODE_ENV=production"
+
+[Install]

@@ -1,0 +1,8 @@
+version: "3"
+agent:
+    authtoken: 38ShXByDQloJRrk6hCYQpol7kvU_pMek7tCs7QjeD4MGmXGq
+tunnels:
+    n8n:
+        proto: http
+        addr: 5678
+        domain: alishia-fatless-beryl.ngrok-free.dev

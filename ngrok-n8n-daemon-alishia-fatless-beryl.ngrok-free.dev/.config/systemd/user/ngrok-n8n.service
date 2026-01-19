@@ -1,0 +1,15 @@
+[Unit]
+Description=ngrok tunnel for n8n
+BindsTo=n8n.service
+After=n8n.service
+
+[Service]
+Type=simple
+ExecStart=ngrok http 5678 --domain alishia-fatless-beryl.ngrok-free.dev
+Restart=always
+RestartSec=10
+
+Environment="PATH=/home/riad/.nvm/versions/node/v24.13.0/bin:/usr/local/bin:/usr/bin:/bin"
+Environment="NODE_ENV=production"
+
+[Install]
