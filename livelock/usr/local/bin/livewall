@@ -1,0 +1,39 @@
+#!/bin/bash
+
+set -e
+
+SCRIPT_ID="livewalld"
+
+slog(){
+	logger -t USLOG "$SCRIPT_ID -> $1"
+}
+
+err_log(){
+	exit_code=$?
+	if [ $exit_code -ne 0 ]; then
+		slog "Wallpaper set failed"
+	fi
+}
+
+trap err_log EXIT
+
+# Path to your videos folder
+VIDEO_DIR="/home/mokaddimulkabir/Videos/Live"
+# This connects the script to your actual GNOME session
+export DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/$(id -u)/bus"
+
+# Select a random video file
+NEXT_VIDEO=$(find "$VIDEO_DIR" -type f \( -name "*.mp4" -o -name "*.mkv" -o -name "*.webm" \) | shuf -n 1)
+
+if [ -n "$NEXT_VIDEO" ]; then
+	# Update the GNOME setting
+	gsettings --schemadir ~/.local/share/gnome-shell/extensions/live-lockscreen@nick-redwill/schemas/ \
+		set org.gnome.shell.extensions.live-lockscreen background-video-path "'$NEXT_VIDEO'"
+
+fi
+
+#gnome-extensions disable live-lockscreen@nick-redwill
+#sleep 0.5
+#gnome-extensions enable live-lockscreen@nick-redwill
+
+slog "Wallpaper set seccessfully"

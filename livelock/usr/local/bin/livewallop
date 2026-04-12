@@ -1,0 +1,30 @@
+#!/bin/bash
+
+set -e
+
+video_optimizer(){
+	[[ "$2" == "" ]] && exit 1
+	filename=$(basename "$1")
+	ffmpeg -i "$1" \
+-hide_banner -y \
+-loglevel error -stats \
+-vf "scale=1920:1080,format=nv12,hwupload" \
+-vaapi_device /dev/dri/renderD128 \
+-c:v h264_vaapi -qp 24 \
+-an -sn -map_metadata -1 \
+"$2/${filename}_optimized.mp4"
+
+}
+
+[[ "$2" == "" ]] && exit 1
+
+files=$(find "$1"  -maxdepth 1 -mindepth 1)
+
+total=$(echo $files | wc -w)
+count=1
+
+for file in $files;do
+	echo "$file [$count/$total]"
+	video_optimizer "$file" "$2"
+	count=$((count+1))
+done
