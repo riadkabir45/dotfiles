@@ -1,0 +1,6 @@
+#!/bin/basha
+
+# Setup Homebrew and essential apps
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+brew reinstall fastfetch starship
+brew  reinstall --cask font-fira-code-nerd-font font-fira-mono-nerd-font

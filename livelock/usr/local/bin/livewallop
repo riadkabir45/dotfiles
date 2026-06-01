@@ -5,18 +5,19 @@ set -e
 video_optimizer(){
 	[[ "$2" == "" ]] && exit 1
 	filename=$(basename "$1")
-	ffmpeg -i "$1" \
--hide_banner -y \
--loglevel error -stats \
--vf "scale=1920:1080,format=nv12,hwupload" \
--vaapi_device /dev/dri/renderD128 \
--c:v h264_vaapi -qp 24 \
--an -sn -map_metadata -1 \
-"$2/${filename}_optimized.mp4"
+	ffmpeg -i $1 \
+	  -hide_banner -y \
+	  -loglevel error -stats \
+	  -vaapi_device /dev/dri/renderD128 \
+	  -vf scale=$3,format=nv12,hwupload \
+	  -c:v h264_vaapi -qp 24 \
+	  -an -sn -map_metadata -1 \
+	  -r "$4" \
+	  $2/${filename}_optimized.mp4
 
 }
 
-[[ "$2" == "" ]] && exit 1
+[[ "$4" == "" ]] && exit 1
 
 files=$(find "$1"  -maxdepth 1 -mindepth 1)
 
@@ -25,6 +26,6 @@ count=1
 
 for file in $files;do
 	echo "$file [$count/$total]"
-	video_optimizer "$file" "$2"
+	video_optimizer "$file" "$2" "$3" "$4"
 	count=$((count+1))
 done
