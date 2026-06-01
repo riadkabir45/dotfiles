@@ -1,0 +1,10 @@
+TERM="xterm"
+
+alias oclear="sh -c clear"
+alias clear="clear && fastfetch"
+alias BD="ssh ops01-bd"
+
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv bash)"
+eval -- "$(/home/linuxbrew/.linuxbrew/bin/starship init bash --print-full-init)"
+
+fastfetch
